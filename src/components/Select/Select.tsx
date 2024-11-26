@@ -3,14 +3,13 @@ import SelectButton from './SelectButton/SelectButton.tsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { fetchUserList } from '../../api/user.ts'
 import { User, UserList } from '../../types/user.ts'
-import SelectDropdown from './SelectDropdown/SelectDropdown.tsx'
-import useInfiniteScroll from '../../hooks/useInfiniteScroll.ts'
+import SelectItem from './SelectItem/SelectItem.tsx'
 import useOnClickOutside from '../../hooks/useOnClickOutside.ts'
+import Window from '../Window/Window.tsx'
 
 const LIMIT = 50
 
 const Select = () => {
-  const dropdownRef = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const [selected, setSelected] = useState<User | null>(null)
@@ -27,21 +26,20 @@ const Select = () => {
     fetchParams.current.isLoading = true
 
     const response = await fetchUserList(fetchParams.current.page, LIMIT)
-    if (response.meta.to >= response.meta.total) {
-      fetchParams.current.hasMorePage = false
-    } else {
+
+    if (response.data.length) {
       setUsers((prevState) => [...prevState, ...response.data])
       fetchParams.current.page += 1
     }
-
+    if (response.meta.to >= response.meta.total) {
+      fetchParams.current.hasMorePage = false
+    }
     fetchParams.current.isLoading = false
   }, [])
 
   useEffect(() => {
     fetchUsers()
   }, [])
-
-  useInfiniteScroll(fetchUsers, 300, dropdownRef)
 
   const ref = useOnClickOutside<HTMLDivElement>(() => setIsDropdownOpen(false))
 
@@ -53,15 +51,19 @@ const Select = () => {
         isActive={isDropdownOpen}
       />
       {isDropdownOpen && (
-        <SelectDropdown
-          selected={selected}
-          users={users}
-          ref={dropdownRef}
-          onClick={(user) => {
-            setSelected(user)
-            setIsDropdownOpen(false)
-          }}
-        />
+        <Window className={styles.dropdown} rowHeight={32} onReachBottom={fetchUsers}>
+          {users.map((user) => (
+            <SelectItem
+              key={user.id}
+              isSelected={selected?.id === user.id}
+              user={user}
+              onClick={() => {
+                setSelected(user)
+                setIsDropdownOpen(false)
+              }}
+            />
+          ))}
+        </Window>
       )}
     </div>
   )
