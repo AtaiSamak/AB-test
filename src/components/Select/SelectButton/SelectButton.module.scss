@@ -10,6 +10,10 @@
   border: 1px solid transparent;
   transition: border 0.1s ease-in-out;
 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
   &Active {
     border: 1px solid rgba(73, 113, 255, 1);
   }

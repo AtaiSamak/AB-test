@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+# AB
+Тестовое задание на вакансию Front-end Developer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Содержание
+- [Зависимости](#зависимости)
+- [Установка и использование](#установка-и-использование)
 
-Currently, two official plugins are available:
+## Зависимости
+### Версия Node.js:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+v20.14.0
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Установка и использование
+#### 1. Скачать
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+git clone git@github.com:AtaiSamak/AB-test.git
+```
+
+#### 2. `cd` для перехода в нужную директорию, установка зависимостей `yarn install` и запуск:
+
+
+```
+cd .\AB-test
+yarn install
+yarn dev
+```
+
+Запускаем [http://localhost:5173/](http://localhost:5173/)(у вас может быть другой порт) для просмотра приложения в браузере
