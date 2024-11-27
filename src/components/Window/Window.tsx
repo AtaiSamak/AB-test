@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo, useState } from 'react'
+import React, { ReactElement, useMemo, useState, UIEvent } from 'react'
 import useElementSize from '../../hooks/useElementSize'
 import throttle from '../../helpers/throttle.ts'
 
@@ -9,7 +9,7 @@ export interface WindowProps {
   className?: string
   gap?: number
 }
-const bufferedItems = 2
+const BUFFERED_ITEMS = 4
 
 const Window: React.FC<WindowProps> = ({
   rowHeight,
@@ -22,9 +22,9 @@ const Window: React.FC<WindowProps> = ({
   const [scrollPosition, setScrollPosition] = useState(0)
 
   const visibleChildren = React.useMemo(() => {
-    const startIndex = Math.max(Math.floor(scrollPosition / rowHeight) - bufferedItems, 0)
+    const startIndex = Math.max(Math.floor(scrollPosition / rowHeight) - BUFFERED_ITEMS, 0)
     const endIndex = Math.min(
-      Math.ceil((scrollPosition + containerHeight) / rowHeight - 1) + bufferedItems,
+      Math.ceil((scrollPosition + containerHeight) / rowHeight - 1) + BUFFERED_ITEMS,
       children.length - 1,
     )
 
@@ -45,8 +45,8 @@ const Window: React.FC<WindowProps> = ({
   const onScroll = useMemo(
     () =>
       throttle(
-        function (e: any) {
-          const scrollPosition = e.target.scrollTop
+        function (e: UIEvent<HTMLDivElement>) {
+          const scrollPosition = (e.target as HTMLDivElement).scrollTop
           if (scrollPosition > Math.max(children.length * rowHeight - 300, 0)) {
             onReachBottom()
           }
